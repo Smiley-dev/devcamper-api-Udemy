@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoSanitize = require("express-mongo-sanitize");
+const helmet = require("helmet");
+const xssClean = require("xss-clean");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const colors = require("colors");
@@ -39,6 +41,12 @@ app.use(fileuplad());
 
 //Sanitize data
 app.use(mongoSanitize());
+
+//Set security headers
+app.use(helmet());
+
+//Prevent Cross-Site Scripting
+app.use(xssClean());
 
 //Set static folder
 app.use(express.static(path.join(__dirname, "public")));
